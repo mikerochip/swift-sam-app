@@ -1,0 +1,50 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      # See https://swift.org/download/#using-downloads
+      - >
+        yum install \
+            binutils \
+            gcc \
+            git \
+            glibc-static \
+            gzip \
+            libbsd \
+            libcurl \
+            libedit \
+            libicu \
+            libsqlite \
+            libstdc++-static \
+            libuuid \
+            libxml2 \
+            tar \
+            tzdata
+      - wget https://swift.org/builds/swift-5.2.5-release/amazonlinux2/swift-5.2.5-RELEASE/swift-5.2.5-RELEASE-amazonlinux2.tar.gz
+      - tar xzf swift-5.2.5-RELEASE-amazonlinux2.tar.gz
+      - sudo mv swift-5.2.5-RELEASE-amazonlinux2 /usr/share/swift
+  pre_build:
+    commands:
+      - echo "ProjectPath $ProjectPath"
+      - echo "ArtifactBucket $ArtifactBucket"
+      - echo "ArtifactBucketPrefix $ArtifactBucketPrefix"
+      - echo "TemplateFileName $TemplateFileName"
+      - echo "OutputTemplateFileName $OutputTemplateFileName"
+      - cd $ProjectPath
+  build:
+    commands:
+      - swift --version
+      - swift build
+      - >
+        sam package
+        --template-file $TemplateFileName
+        --output-template-file bin/$OutputTemplateFileName
+        --s3-bucket $ArtifactBucket
+        --s3-prefix $ArtifactBucketPrefix
+        --force-upload
+        --debug
+artifacts:
+  base-directory: $ProjectPath
+  files:
+    - bin/$OutputTemplateFileName
+  discard-paths: yes
