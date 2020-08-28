@@ -4,21 +4,21 @@ phases:
     commands:
       # See https://swift.org/download/#using-downloads
       - >
-        yum install \
-            binutils \
-            gcc \
-            git \
-            glibc-static \
-            gzip \
-            libbsd \
-            libcurl \
-            libedit \
-            libicu \
-            libsqlite \
-            libstdc++-static \
-            libuuid \
-            libxml2 \
-            tar \
+        yum install
+            binutils
+            gcc
+            git
+            glibc-static
+            gzip
+            libbsd
+            libcurl
+            libedit
+            libicu
+            libsqlite
+            libstdc++-static
+            libuuid
+            libxml2
+            tar
             tzdata
       - wget https://swift.org/builds/swift-5.2.5-release/amazonlinux2/swift-5.2.5-RELEASE/swift-5.2.5-RELEASE-amazonlinux2.tar.gz
       - tar xzf swift-5.2.5-RELEASE-amazonlinux2.tar.gz
@@ -38,7 +38,7 @@ phases:
       - >
         sam package
         --template-file $TemplateFileName
-        --output-template-file bin/$OutputTemplateFileName
+        --output-template-file $OutputTemplateFileName
         --s3-bucket $ArtifactBucket
         --s3-prefix $ArtifactBucketPrefix
         --force-upload
@@ -46,5 +46,4 @@ phases:
 artifacts:
   base-directory: $ProjectPath
   files:
-    - bin/$OutputTemplateFileName
-  discard-paths: yes
+    - $OutputTemplateFileName

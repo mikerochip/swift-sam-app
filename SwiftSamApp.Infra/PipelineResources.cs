@@ -228,6 +228,14 @@ namespace SwiftSamApp.Infra
                                 Provider = "CodeBuild",
                                 Version = "1",
                                 InputArtifacts = { "SourceArtifact" },
+                                Configuration =
+                                {
+                                    { "ProjectName", buildProject.Name },
+                                    {
+                                        "EnvironmentVariables",
+                                        "[ { \"name\": \"ProjectPath\", \"value\": \"SwiftSamApp.Api\" } ]"
+                                    },
+                                },
                                 OutputArtifacts = { "BuildArtifact" },
                                 RunOrder = 1,
                             },
