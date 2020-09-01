@@ -4,7 +4,7 @@ phases:
     commands:
       # See https://swift.org/download/#using-downloads
       - >
-        yum install
+        yum -y install
             binutils
             gcc
             git
@@ -34,7 +34,7 @@ phases:
   build:
     commands:
       - swift --version
-      - swift build
+      - swift build --product SwiftSamApp -c release
       - >
         sam package
         --template-file $TemplateFileName
