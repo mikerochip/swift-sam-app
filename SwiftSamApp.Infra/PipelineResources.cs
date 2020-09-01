@@ -46,7 +46,7 @@ namespace SwiftSamApp.Infra
         #region Artifacts
         private Bucket CreateArtifactBucket()
         {
-            Bucket bucket = new Bucket("waker-upper-artifacts", new BucketArgs
+            Bucket bucket = new Bucket("swift-sam-app-artifacts", new BucketArgs
             {
                 LifecycleRules = new BucketLifecycleRuleArgs
                 {
