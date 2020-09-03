@@ -31,10 +31,19 @@ phases:
       - echo "TemplateFileName $TemplateFileName"
       - echo "OutputTemplateFileName $OutputTemplateFileName"
       - cd $ProjectPath
+      - swift --version
   build:
     commands:
-      - swift --version
       - swift build --product SwiftSamApp -c release
+      # see https://github.com/swift-server/swift-aws-lambda-runtime/blob/master/Examples/LambdaFunctions/scripts/package.sh
+      - exe_path = .build/release/SwiftSamApp
+      - target_dir = .build/lambda/SwiftSamApp
+      - mkdir -p "$target_dir"
+      - cp "$exe_path" "$target_dir/"
+      - ldd "$exe_path" | grep swift | awk '{print $3}' | xargs cp -Lv -t "$target_dir"
+      - cd "$target_dir"
+      - ln -s "SwiftSamApp" "bootstrap"
+      - zip --symlinks lambda.zip *
       - >
         sam package
         --template-file $TemplateFileName
