@@ -4,29 +4,27 @@ Description: Sample SAM Template for SwiftSamApp.Api
 
 Globals:
   Function:
-    Timeout: 10
+    Handler: Provided
+    Runtime: provided
+    CodeUri: ./build/lambda/SwiftSamApp/lambda.zip
+    MemorySize: 258
+    Timeout: 30
+    AutoPublishAlias: Live
+    DeploymentPreference:
+      Type: AllAtOnce
 
 Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./src/HelloWorld/
-      Handler: HelloWorld::HelloWorld.Function::FunctionHandler
-      Runtime: dotnetcore3.1
       Events:
         HelloWorld:
-          Type: Api
+          Type: HttpApi
           Properties:
             Path: /hello
-            Method: get
+            Method: GET
 
 Outputs:
   HelloWorldApi:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
