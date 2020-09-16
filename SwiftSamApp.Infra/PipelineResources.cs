@@ -38,8 +38,7 @@ namespace SwiftSamApp.Infra
             Project buildProject = CreateBuildProject(bucket);
             Role cloudFormationRole = CreateCloudFormationRole();
             Pipeline pipeline = CreatePipeline(bucket, pipelineRole, buildProject, cloudFormationRole);
-            PipelineWebhook webhook = CreatePipelineWebhook(pipeline);
-            CreateRepoWebhook(webhook);
+            CreatePipelineWebhook(pipeline);
         }
         #endregion
 
@@ -313,22 +312,6 @@ namespace SwiftSamApp.Infra
             Stack.PipelineWebhookUrl = webhook.Url;
             
             return webhook;
-        }
-
-        private void CreateRepoWebhook(PipelineWebhook pipelineWebhook)
-        {
-            RepositoryWebhook repoWebhook = new RepositoryWebhook($"SwiftSamApp-CodePipeline", new RepositoryWebhookArgs
-            {
-                Repository = Config.Require("githubRepo"),
-                Events = "push",
-                Configuration = new RepositoryWebhookConfigurationArgs
-                {
-                    ContentType = "json",
-                    InsecureSsl = false,
-                    Secret = Config.RequireSecret("webhookSecret"),
-                    Url = pipelineWebhook.Url,
-                }
-            });
         }
         #endregion
     }
