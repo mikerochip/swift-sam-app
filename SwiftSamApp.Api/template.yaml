@@ -14,17 +14,22 @@ Globals:
       Type: AllAtOnce
 
 Resources:
-  HelloWorldFunction:
+  Hello:
     Type: AWS::Serverless::Function
     Properties:
       Events:
         HelloWorld:
           Type: HttpApi
           Properties:
-            Path: /hello
+            Path: /
             Method: GET
+  HelloLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      Properties:
+        LogGroupName: !Sub "/aws/lambda/${Hello}"
+        RetentionInDays: 1
 
 Outputs:
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  HelloApi:
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/${ServerlessHttpApi.Stage}/"
