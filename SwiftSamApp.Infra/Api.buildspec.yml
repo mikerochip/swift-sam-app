@@ -44,7 +44,7 @@ phases:
       - ln -s "SwiftSamApp" "bootstrap"
       - zip --symlinks lambda.zip *
       - cp lambda.zip $ProjectPath
-      - cd $ProjectPath
+      - cd ../../..
       - >
         sam package
         --template-file $TemplateFileName
