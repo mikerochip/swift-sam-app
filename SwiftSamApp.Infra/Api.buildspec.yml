@@ -22,8 +22,10 @@ phases:
         tzdata
       - wget -q --progress=bar:force:noscroll https://swift.org/builds/swift-5.2.5-release/amazonlinux2/swift-5.2.5-RELEASE/swift-5.2.5-RELEASE-amazonlinux2.tar.gz
       - tar xzf swift-5.2.5-RELEASE-amazonlinux2.tar.gz
+      - ls swift-5.2.5-RELEASE-amazonlinux2
       - mv swift-5.2.5-RELEASE-amazonlinux2 /usr/bin/swift
       - export PATH=/usr/bin/swift:"${PATH}"
+      - echo $PATH
   pre_build:
     commands:
       - echo "ProjectPath $ProjectPath"
