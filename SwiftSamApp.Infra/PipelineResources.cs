@@ -115,12 +115,12 @@ namespace SwiftSamApp.Infra
                         new ProjectEnvironmentEnvironmentVariableArgs
                         {
                             Name = "TemplateFileName",
-                            Value = "template.json",
+                            Value = "template.yaml",
                         },
                         new ProjectEnvironmentEnvironmentVariableArgs
                         {
                             Name = "OutputTemplateFileName",
-                            Value = "output-template.json",
+                            Value = "output-template.yaml",
                         },
                     }
                 }
@@ -258,7 +258,7 @@ namespace SwiftSamApp.Infra
                                     { "ActionMode", "CHANGE_SET_REPLACE" },
                                     { "StackName", "SwiftSamApp" },
                                     { "ChangeSetName", "CodePipelineChangeSet" },
-                                    { "TemplatePath", "BuildArtifact::output-template.json" },
+                                    { "TemplatePath", "BuildArtifact::output-template.yaml" },
                                     { "Capabilities", "CAPABILITY_NAMED_IAM" },
                                     { "RoleArn", cloudFormationRole.Arn },
                                 },
