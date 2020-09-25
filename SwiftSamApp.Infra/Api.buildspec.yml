@@ -20,12 +20,9 @@ phases:
         libxml2
         tar
         tzdata
-        tree
       - wget -q --progress=bar:force:noscroll https://swift.org/builds/swift-5.2.5-release/amazonlinux2/swift-5.2.5-RELEASE/swift-5.2.5-RELEASE-amazonlinux2.tar.gz
       - tar xzf swift-5.2.5-RELEASE-amazonlinux2.tar.gz
-      - tree -d swift-5.2.5-RELEASE-amazonlinux2
-      - mv swift-5.2.5-RELEASE-amazonlinux2 /usr/bin/swift
-      - export PATH=/usr/bin/swift:"${PATH}"
+      - export PATH=$(pwd)/swift-5.2.5-RELEASE-amazonlinux2/usr/bin:"${PATH}"
       - echo $PATH
   pre_build:
     commands:
