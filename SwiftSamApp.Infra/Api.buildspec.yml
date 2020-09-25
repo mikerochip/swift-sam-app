@@ -43,7 +43,6 @@ phases:
       - cd .build/lambda/SwiftSamApp
       - ln -s "SwiftSamApp" "bootstrap"
       - zip --symlinks lambda.zip *
-      - cp lambda.zip $ProjectPath
       - cd ../../..
       - >
         sam package
