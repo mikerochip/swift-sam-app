@@ -8,8 +8,6 @@ using Pulumi.Aws.CodePipeline;
 using Pulumi.Aws.CodePipeline.Inputs;
 using Pulumi.Aws.S3;
 using Pulumi.Aws.S3.Inputs;
-using Pulumi.Github;
-using Pulumi.Github.Inputs;
 
 using Config = Pulumi.Config;
 using PipelineWebhook = Pulumi.Aws.CodePipeline.Webhook;
