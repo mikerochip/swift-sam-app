@@ -5,7 +5,13 @@ import NIO
 struct APIGatewayProxyLambda: EventLoopLambdaHandler {
     public typealias In = APIGateway.V2.Request
     public typealias Out = APIGateway.V2.Response
-
+    
+    var routeTable: [HTTPPathAndMethod: (In) -> Out] = [:]
+    
+    init() {
+        routeTable[HTTPPathAndMethod("/", HTTPMethod.GET)] = handleHello
+    }
+    
     public func handle(context: Lambda.Context, event: In) -> EventLoopFuture<Out> {
         print("Entered lambda handler \(context.requestID)")
         let response = handleRoute(event)
@@ -17,16 +23,14 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
         let path = event.context.http.path
         let method = event.context.http.method
         
-        if path == "/" {
-            if method == HTTPMethod.GET {
-                return Out(statusCode: .ok, body: handleHello(event.body))
-            }
+        guard let handler = routeTable[HTTPPathAndMethod(path, method)] else {
+            return Out(statusCode: .notFound, body: "Invalid Route")
         }
         
-        return Out(statusCode: .notFound, body: "Invalid Route")
+        return handler(event)
     }
     
-    private func handleHello(_ body: String?) -> String {
-        return "Hello, world!"
+    private func handleHello(_ event: In) -> Out {
+        return Out(statusCode: .ok, body: "Hello, world!")
     }
 }
