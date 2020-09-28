@@ -26,9 +26,8 @@ Resources:
   HelloLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      Properties:
-        LogGroupName: !Sub "/aws/lambda/${Hello}"
-        RetentionInDays: 1
+      LogGroupName: !Sub "/aws/lambda/${Hello}"
+      RetentionInDays: 1
 
 Outputs:
   HelloApi:
