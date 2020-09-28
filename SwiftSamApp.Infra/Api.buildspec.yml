@@ -3,6 +3,7 @@ phases:
   install:
     commands:
       # See https://swift.org/download/#using-downloads
+      # Installation section for Amazon Linux 2
       - >
         yum -y install
         binutils
@@ -20,7 +21,10 @@ phases:
         libxml2
         tar
         tzdata
+      # wget writes an obnoxious amount of progress lines, so turn that off
       - wget -q --progress=bar:force:noscroll https://swift.org/builds/swift-5.2.5-release/amazonlinux2/swift-5.2.5-RELEASE/swift-5.2.5-RELEASE-amazonlinux2.tar.gz
+      # extracting and putting swift binaries on the path
+      # again, see https://swift.org/download/#using-downloads 
       - tar xzf swift-5.2.5-RELEASE-amazonlinux2.tar.gz
       - export PATH=$(pwd)/swift-5.2.5-RELEASE-amazonlinux2/usr/bin:"${PATH}"
       - echo $PATH
