@@ -43,10 +43,10 @@ phases:
       # see https://github.com/swift-server/swift-aws-lambda-runtime/blob/master/Examples/LambdaFunctions/scripts/package.sh
       - set BuildDir ".build/release/SwiftSamApp"
       - set ZipDir ".build/lambda/SwiftSamApp"
-      - mkdir -p $ZipDir
-      - cp $BuildDir $ZipDir/
-      - ldd $BuildDir | grep swift | awk '{print $3}' | xargs cp -Lv -t $ZipDir
-      - cd $ZipDir
+      - mkdir -p "$ZipDir"
+      - cp "$BuildDir" "$ZipDir/"
+      - ldd "$BuildDir" | grep swift | awk '{print $3}' | xargs cp -Lv -t "$ZipDir"
+      - cd "$ZipDir"
       - ln -s "SwiftSamApp" "bootstrap"
       - zip --symlinks lambda.zip *
       - cd ../../..
