@@ -37,10 +37,12 @@ phases:
       - swift --version
       - swift build --product SwiftSamApp -c release
       # see https://github.com/swift-server/swift-aws-lambda-runtime/blob/master/Examples/LambdaFunctions/scripts/package.sh
-      - mkdir -p .build/lambda/SwiftSamApp
-      - cp .build/release/SwiftSamApp .build/lambda/SwiftSamApp
-      - ldd .build/release/SwiftSamApp | grep swift | awk '{print $3}' | xargs cp -Lv -t .build/lambda/SwiftSamApp
-      - cd .build/lambda/SwiftSamApp
+      - set BuildDir .build/release/SwiftSamApp
+      - set ZipDir .build/lambda/SwiftSamApp
+      - mkdir -p $ZipDir
+      - cp $BuildDir $ZipDir/
+      - ldd $BuildDir | grep swift | awk '{print $3}' | xargs cp -Lv -t $ZipDir
+      - cd $ZipDir
       - ln -s "SwiftSamApp" "bootstrap"
       - zip --symlinks lambda.zip *
       - cd ../../..
