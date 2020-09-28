@@ -6,10 +6,10 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
     public typealias In = APIGateway.V2.Request
     public typealias Out = APIGateway.V2.Response
     
-    var routeTable: [HTTPPathAndMethod: (In) -> Out] = [:]
+    var routeTable: [RouteKey: (In) -> Out] = [:]
     
     init() {
-        routeTable[HTTPPathAndMethod("/", HTTPMethod.GET)] = handleHello
+        routeTable[RouteKey("/", HTTPMethod.GET)] = handleHello
     }
     
     public func handle(context: Lambda.Context, event: In) -> EventLoopFuture<Out> {
@@ -23,7 +23,7 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
         let path = event.context.http.path
         let method = event.context.http.method
         
-        guard let handler = routeTable[HTTPPathAndMethod(path, method)] else {
+        guard let handler = routeTable[RouteKey(path, method)] else {
             return Out(statusCode: .notFound, body: "Invalid Route")
         }
         
