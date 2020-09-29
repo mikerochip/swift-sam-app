@@ -3,7 +3,7 @@ import AWSLambdaRuntime
 
 printJson("""
 {
-    "Message" = "I'm alive!"
+    "Message": "I'm alive!"
 }
 """)
 

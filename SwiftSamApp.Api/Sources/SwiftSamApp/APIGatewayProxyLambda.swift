@@ -15,8 +15,8 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
     public func handle(context: Lambda.Context, event: In) -> EventLoopFuture<Out> {
         printJson("""
         {
-            "Action" = "Enter",
-            "RequestId = "\(context.requestID)"
+            "Action": "Enter",
+            "RequestId": "\(context.requestID)"
         }
         """)
         
@@ -24,8 +24,8 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
         
         printJson("""
         {
-            "Action" = "Exit",
-            "RequestId = "\(context.requestID)"
+            "Action": "Exit",
+            "RequestId": "\(context.requestID)"
         }
         """)
         return context.eventLoop.makeSucceededFuture(response)
@@ -45,7 +45,7 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
     func handleHello(_ event: In) -> Out {
         return Out(statusCode: .ok, body: stripNewlines("""
         {
-            "Message" = "Hello, world!"
+            "Message": "Hello, world!"
         }
         """))
     }
