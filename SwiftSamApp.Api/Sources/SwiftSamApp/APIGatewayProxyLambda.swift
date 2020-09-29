@@ -3,8 +3,8 @@ import AWSLambdaRuntime
 import NIO
 
 struct APIGatewayProxyLambda: EventLoopLambdaHandler {
-    public typealias In = APIGateway.V2.Request
-    public typealias Out = APIGateway.V2.Response
+    typealias In = APIGateway.V2.Request
+    typealias Out = APIGateway.V2.Response
     
     var routeTable: [RouteKey: (In) -> Out] = [:]
     
@@ -19,7 +19,7 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
         return context.eventLoop.makeSucceededFuture(response)
     }
     
-    private func handleRoute(_ event: In) -> Out {
+    func handleRoute(_ event: In) -> Out {
         let path = event.context.http.path
         let method = event.context.http.method
         
@@ -30,7 +30,7 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
         return handler(event)
     }
     
-    private func handleHello(_ event: In) -> Out {
+    func handleHello(_ event: In) -> Out {
         return Out(statusCode: .ok, body: "Hello, world!")
     }
 }
