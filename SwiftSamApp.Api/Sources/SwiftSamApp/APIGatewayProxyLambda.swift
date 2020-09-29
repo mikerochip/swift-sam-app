@@ -43,7 +43,7 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
     }
     
     func handleHello(_ event: In) -> Out {
-        return Out(statusCode: .ok, body: stripNewlines("""
+        return Out(statusCode: .ok, body: convertToJson("""
         {
             "Message": "Hello, world!"
         }
