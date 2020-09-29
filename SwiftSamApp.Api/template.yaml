@@ -9,9 +9,6 @@ Globals:
     CodeUri: ./.build/lambda/SwiftSamApp/lambda.zip
     MemorySize: 258
     Timeout: 30
-    Environment:
-      Variables:
-        LOG_LEVEL: DEBUG
     AutoPublishAlias: Live
     DeploymentPreference:
       Type: AllAtOnce
