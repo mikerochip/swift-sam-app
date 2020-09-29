@@ -13,9 +13,9 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
     }
     
     public func handle(context: Lambda.Context, event: In) -> EventLoopFuture<Out> {
-        print("Entered lambda handler \(context.requestID)")
+        context.logger.debug("Entered lambda handler \(context.requestID)")
         let response = handleRoute(event)
-        print("Exiting lambda handler \(context.requestID)")
+        context.logger.debug("Exiting lambda handler \(context.requestID)")
         return context.eventLoop.makeSucceededFuture(response)
     }
     
