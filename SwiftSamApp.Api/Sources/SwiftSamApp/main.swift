@@ -1,6 +1,10 @@
 import AWSLambdaEvents
 import AWSLambdaRuntime
 
-print("I'm alive!")
+print("""
+{
+    "Message" = "I'm alive!"
+}
+""")
 
 Lambda.run(APIGatewayProxyLambda())

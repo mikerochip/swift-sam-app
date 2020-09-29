@@ -13,9 +13,21 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
     }
     
     public func handle(context: Lambda.Context, event: In) -> EventLoopFuture<Out> {
-        context.logger.info("Entered lambda handler \(context.requestID)")
+        context.logger.info("""
+        {
+            "Action" = "Enter",
+            "RequestId = "\(context.requestID)"
+        }
+        """)
+        
         let response = handleRoute(event)
-        context.logger.info("Exiting lambda handler \(context.requestID)")
+        
+        context.logger.info("""
+        {
+            "Action" = "Exit",
+            "RequestId = "\(context.requestID)"
+        }
+        """)
         return context.eventLoop.makeSucceededFuture(response)
     }
     
@@ -31,6 +43,10 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
     }
     
     func handleHello(_ event: In) -> Out {
-        return Out(statusCode: .ok, body: "Hello, world!")
+        return Out(statusCode: .ok, body: """
+        {
+            "Message" = "Hello, world!"
+        }
+        """)
     }
 }
