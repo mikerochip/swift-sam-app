@@ -1,7 +1,7 @@
 import AWSLambdaEvents
 import AWSLambdaRuntime
 
-print("""
+printJson("""
 {
     "Message" = "I'm alive!"
 }
