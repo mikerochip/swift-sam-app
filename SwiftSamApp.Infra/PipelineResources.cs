@@ -263,7 +263,6 @@ namespace SwiftSamApp.Infra
                                         "ParameterOverrides",
                                         Output.Format(
                                         @$"{{
-                                        ""Subdomain"": ""{Stack.Subdomain}"",
                                         ""DomainName"": ""{Stack.DomainName}"",
                                         ""HostedZoneId"": ""{Stack.DomainZoneId}""
                                         }}")
