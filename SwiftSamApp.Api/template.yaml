@@ -27,9 +27,9 @@ Resources:
   Cert:
     Type: AWS::CertificateManager::Certificate
     Properties:
-      DomainName: !Sub '${Subdomain}.{DomainName}'
+      DomainName: !Sub '${Subdomain}.${DomainName}'
       DomainValidationOptions:
-        - DomainName: !Sub '${Subdomain}.{DomainName}'
+        - DomainName: !Sub '${Subdomain}.${DomainName}'
           HostedZoneId: !Ref 'HostedZoneId'
       ValidationMethod: DNS
         
@@ -37,18 +37,18 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref 'HostedZoneId'
-      Name: !Sub '${Subdomain}.{DomainName}'
+      Name: !Sub '${Subdomain}.${DomainName}'
       Type: CNAME
       TTL: '900'
       ResourceRecords:
-        - !Sub '${Subdomain}.{DomainName}'
+        - !Sub '${Subdomain}.${DomainName}'
     DependsOn: Cert
 
   Api:
     Type: AWS::Serverless::HttpApi
     Properties:
       Domain:
-        DomainName: !Sub '${Subdomain}.{DomainName}'
+        DomainName: !Sub '${Subdomain}.${DomainName}'
         CertificateArn: !Ref 'Cert'
         Route53:
           HostedZoneId: !Ref 'HostedZoneId'
