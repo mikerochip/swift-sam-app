@@ -30,17 +30,6 @@ Resources:
         - DomainName: !Ref 'DomainName'
           HostedZoneId: !Ref 'HostedZoneId'
       ValidationMethod: DNS
-        
-  CnameRecord:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      HostedZoneId: !Ref 'HostedZoneId'
-      Name: !Ref 'DomainName'
-      Type: CNAME
-      TTL: '900'
-      ResourceRecords:
-        - !Ref 'DomainName'
-    DependsOn: Cert
 
   Api:
     Type: AWS::Serverless::HttpApi
@@ -50,6 +39,16 @@ Resources:
         CertificateArn: !Ref 'Cert'
         Route53:
           HostedZoneId: !Ref 'HostedZoneId'
+
+  CnameRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref 'HostedZoneId'
+      Name: !Ref 'DomainName'
+      Type: CNAME
+      TTL: '900'
+      ResourceRecords:
+        - !Sub "${Api}.execute-api.${AWS::Region}.amazonaws.com"
 
   Hello:
     Type: AWS::Serverless::Function
