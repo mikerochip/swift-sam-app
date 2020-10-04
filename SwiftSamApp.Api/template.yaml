@@ -1,13 +1,19 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Sample SAM Template for SwiftSamApp.Api
+
+Parameters:
+  Subdomain:
+    Type: String
+  DomainName:
+    Type: String
+  HostedZoneId:
+    Type: String
 
 Globals:
   Function:
     Handler: Provided
     Runtime: provided
     CodeUri: ./.build/lambda/SwiftSamApp/lambda.zip
-    MemorySize: 258
     MemorySize: 256
     Timeout: 30
     Environment:
@@ -18,6 +24,35 @@ Globals:
       Type: AllAtOnce
 
 Resources:
+  Cert:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Sub '${Subdomain}.{DomainName}'
+      DomainValidationOptions:
+        - DomainName: !Sub '${Subdomain}.{DomainName}'
+          HostedZoneId: !Ref 'HostedZoneId'
+      ValidationMethod: DNS
+        
+  CnameRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref 'HostedZoneId'
+      Name: !Sub '${Subdomain}.{DomainName}'
+      Type: CNAME
+      TTL: '900'
+      ResourceRecords:
+        - !Sub '${Subdomain}.{DomainName}'
+    DependsOn: Cert
+
+  Api:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Domain:
+        DomainName: !Sub '${Subdomain}.{DomainName}'
+        CertificateArn: !Ref 'Cert'
+        Route53:
+          HostedZoneId: !Ref 'HostedZoneId'
+
   Hello:
     Type: AWS::Serverless::Function
     Properties:
@@ -25,8 +60,9 @@ Resources:
         HelloWorld:
           Type: HttpApi
           Properties:
-            Path: /
+            ApiId: !Ref Api
             Method: GET
+            Path: /
   HelloLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:

@@ -259,6 +259,15 @@ namespace SwiftSamApp.Infra
                                     { "TemplatePath", "BuildArtifact::output-template.yaml" },
                                     { "Capabilities", "CAPABILITY_NAMED_IAM" },
                                     { "RoleArn", cloudFormationRole.Arn },
+                                    {
+                                        "ParameterOverrides",
+                                        Output.Format(
+                                        @$"{{
+                                        ""Subdomain"": ""{Stack.Subdomain}"",
+                                        ""DomainName"": ""{Stack.DomainName}"",
+                                        ""HostedZoneId"": ""{Stack.DomainZoneId}""
+                                        }}")
+                                    },
                                 },
                                 RunOrder = 1,
                             },

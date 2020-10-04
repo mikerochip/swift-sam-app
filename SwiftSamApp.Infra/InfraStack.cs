@@ -6,9 +6,17 @@ namespace SwiftSamApp.Infra
     {
         [Output]
         public Output<string>? PipelineWebhookUrl { get; set; }
+        [Output]
+        public Output<string>? DomainName { get; set; }
+
+        public string DomainZoneId { get; set; } = "Z04585421KLVK3HTHS622";
+        public string Subdomain { get; set; } = "swiftsamapp";
         
         public InfraStack()
         {
+            DomainResources domainResources = new DomainResources(this);
+            domainResources.CreateResources();
+            
             PipelineResources pipelineResources = new PipelineResources(this);
             pipelineResources.CreateResources();
         }
