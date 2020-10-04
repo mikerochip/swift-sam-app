@@ -8,6 +8,7 @@ Globals:
     Runtime: provided
     CodeUri: ./.build/lambda/SwiftSamApp/lambda.zip
     MemorySize: 258
+    MemorySize: 256
     Timeout: 30
     Environment:
       Variables:
