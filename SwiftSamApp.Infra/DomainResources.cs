@@ -26,7 +26,8 @@ namespace SwiftSamApp.Infra
         private void ImportZone()
         {
             Zone zone = Zone.Get("DomainZone", Stack.DomainZoneId);
-            Stack.DomainName = Output.Format($"{Stack.Subdomain}.{zone.Name}");
+            Output<string> domainName = zone.Name.Apply(n => n.TrimEnd('.'));
+            Stack.DomainName = Output.Format($"{Stack.Subdomain}.{domainName}");
         }
         #endregion
     }
