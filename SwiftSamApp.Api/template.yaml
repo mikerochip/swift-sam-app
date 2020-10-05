@@ -40,16 +40,6 @@ Resources:
         Route53:
           HostedZoneId: !Ref 'HostedZoneId'
 
-  CnameRecord:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      HostedZoneId: !Ref 'HostedZoneId'
-      Name: !Ref 'DomainName'
-      Type: CNAME
-      TTL: '900'
-      ResourceRecords:
-        - !Sub "${Api}.execute-api.${AWS::Region}.amazonaws.com"
-
   Hello:
     Type: AWS::Serverless::Function
     Properties:
