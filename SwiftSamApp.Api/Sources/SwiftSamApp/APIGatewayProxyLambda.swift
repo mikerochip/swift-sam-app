@@ -32,10 +32,9 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
     }
     
     func handleRoute(_ event: In) -> Out {
-        let path = event.context.http.path
-        let method = event.context.http.method
+        let routeKey = RouteKey(event.context.http.path, event.context.http.method)
         
-        guard let handler = routeTable[RouteKey(path, method)] else {
+        guard let handler = routeTable[routeKey] else {
             return Out(statusCode: .notFound, body: "Invalid Route")
         }
         
