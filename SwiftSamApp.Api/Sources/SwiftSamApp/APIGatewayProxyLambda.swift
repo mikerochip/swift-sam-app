@@ -20,7 +20,7 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
         }
         """)
         
-        let response = handleRoute(event)
+        let response = routeAndHandleEvent(event)
         
         printJson(context.logger, """
         {
@@ -31,7 +31,7 @@ struct APIGatewayProxyLambda: EventLoopLambdaHandler {
         return context.eventLoop.makeSucceededFuture(response)
     }
     
-    func handleRoute(_ event: In) -> Out {
+    func routeAndHandleEvent(_ event: In) -> Out {
         let routeKey = RouteKey(event.context.http.path, event.context.http.method)
         
         guard let handler = routeTable[routeKey] else {
