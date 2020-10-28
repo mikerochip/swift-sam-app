@@ -12,6 +12,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", from: "0.0.0"),
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
     ],
     targets: [
         .target(name: "SwiftSamApp", dependencies: [
@@ -19,6 +20,8 @@ let package = Package(
             .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-runtime"),
         ]),
         .testTarget(name: "SwiftSamAppTests", dependencies: [
+            .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
+            .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-runtime"),
             "SwiftSamApp"
         ]),
     ]
