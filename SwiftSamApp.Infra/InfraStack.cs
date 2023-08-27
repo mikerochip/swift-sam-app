@@ -5,8 +5,6 @@ namespace SwiftSamApp.Infra
     internal class InfraStack : Stack
     {
         [Output]
-        public Output<string>? PipelineWebhookUrl { get; set; }
-        [Output]
         public Output<string>? DomainName { get; set; }
 
         public string DomainZoneId { get; set; } = "Z04585421KLVK3HTHS622";

@@ -10,8 +10,6 @@ using Pulumi.Aws.S3;
 using Pulumi.Aws.S3.Inputs;
 
 using Config = Pulumi.Config;
-using PipelineWebhook = Pulumi.Aws.CodePipeline.Webhook;
-using PipelineWebhookArgs = Pulumi.Aws.CodePipeline.WebhookArgs;
 
 namespace SwiftSamApp.Infra
 {
@@ -20,7 +18,6 @@ namespace SwiftSamApp.Infra
         #region Properties
         private InfraStack Stack { get; }
         private Config Config { get; } = new Config();
-        private Config GitHubConfig { get; } = new Config("github");
         #endregion
         
         #region Initialization
@@ -36,7 +33,6 @@ namespace SwiftSamApp.Infra
             Project buildProject = CreateBuildProject(bucket);
             Role cloudFormationRole = CreateCloudFormationRole();
             Pipeline pipeline = CreatePipeline(bucket, pipelineRole, buildProject, cloudFormationRole);
-            CreatePipelineWebhook(pipeline);
         }
         #endregion
 
@@ -97,7 +93,7 @@ namespace SwiftSamApp.Infra
                 {
                     ComputeType = "BUILD_GENERAL1_SMALL",
                     Type = "LINUX_CONTAINER",
-                    Image = "aws/codebuild/amazonlinux2-x86_64-standard:3.0",
+                    Image = "aws/codebuild/amazonlinux2-x86_64-standard:4.0",
                     EnvironmentVariables =
                     {
                         new ProjectEnvironmentEnvironmentVariableArgs
@@ -180,7 +176,7 @@ namespace SwiftSamApp.Infra
         {
             Pipeline pipeline = new Pipeline("SwiftSamApp", new PipelineArgs
             {
-                ArtifactStore = new PipelineArtifactStoreArgs
+                ArtifactStores = new PipelineArtifactStoreArgs
                 {
                     Type = "S3",
                     Location = bucket.BucketName,
@@ -197,16 +193,15 @@ namespace SwiftSamApp.Infra
                             {
                                 Name = "Source",
                                 Category = "Source",
-                                Owner = "ThirdParty",
-                                Provider = "GitHub",
+                                Owner = "AWS",
+                                Provider = "CodeStarSourceConnection",
                                 Version = "1",
                                 Configuration =
                                 {
-                                    { "Owner", Config.Require("githubOwner") },
-                                    { "Repo", Config.Require("githubRepo") },
-                                    { "Branch", Config.Require("githubBranch") },
-                                    { "OAuthToken", GitHubConfig.RequireSecret("token") },
-                                    { "PollForSourceChanges", "false" },
+                                    { "ConnectionArn", Config.Require("codeStarConnectionArn") },
+                                    { "FullRepositoryId", $"{Config.Require("githubOwner")}/{Config.Require("githubRepo")}" },
+                                    { "BranchName", Config.Require("githubBranch") },
+                                    { "DetectChanges", "true" },
                                 },
                                 OutputArtifacts = { "SourceArtifact" },
                             },
@@ -291,33 +286,6 @@ namespace SwiftSamApp.Infra
                 },
             });
             return pipeline;
-        }
-        #endregion
-
-        #region Webhooks
-        private PipelineWebhook CreatePipelineWebhook(Pipeline pipeline)
-        {
-            string branch = Config.Require("githubBranch");
-            
-            PipelineWebhook webhook = new PipelineWebhook("SwiftSamApp", new PipelineWebhookArgs
-            {
-                Authentication = "GITHUB_HMAC",
-                AuthenticationConfiguration = new WebhookAuthenticationConfigurationArgs
-                {
-                    SecretToken = Config.RequireSecret("webhookSecret"),
-                },
-                Filters = new WebhookFilterArgs
-                {
-                    JsonPath = "$.ref",
-                    MatchEquals = $"refs/heads/{branch}",
-                },
-                TargetAction = "Source",
-                TargetPipeline = pipeline.Name,
-            });
-            
-            Stack.PipelineWebhookUrl = webhook.Url;
-            
-            return webhook;
         }
         #endregion
     }

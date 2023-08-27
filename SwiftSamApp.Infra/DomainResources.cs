@@ -7,7 +7,6 @@ namespace SwiftSamApp.Infra
     {
         #region Properties
         private InfraStack Stack { get; }
-        private Config Config { get; } = new Config();
         #endregion
         
         #region Initialization
