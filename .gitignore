@@ -1,5 +1,6 @@
-Pulumi.*.yaml
 .idea
+.DS_Store
+Pulumi.*.yaml
 
 # Created by https://www.toptal.com/developers/gitignore/api/swift,swiftpackagemanager,macos,csharp,rider,visualstudio,xcode
 # Edit at https://www.toptal.com/developers/gitignore?templates=swift,swiftpackagemanager,macos,csharp,rider,visualstudio,xcode
