@@ -9,8 +9,8 @@ Parameters:
 
 Globals:
   Function:
-    Handler: Provided
-    Runtime: provided
+    Handler: bootstrap
+    Runtime: provided.al2
     CodeUri: ./.build/lambda/SwiftSamApp/lambda.zip
     MemorySize: 256
     Timeout: 30
