@@ -44,7 +44,7 @@ struct Handler: LambdaHandler {
             return Response(statusCode: .notFound, body: "Invalid Route")
         }
         
-        return handler(event)
+        return handler(request)
     }
     
     func handleHello(_ request: Request) -> Response {
