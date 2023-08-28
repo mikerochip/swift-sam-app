@@ -31,7 +31,8 @@ struct Handler: LambdaHandler {
         printJson(context.logger, """
         {
             "Action": "Exit",
-            "RequestId": "\(context.requestID)"
+            "RequestId": "\(context.requestID)",
+            "Response": \(response.body)
         }
         """)
         return response
@@ -41,7 +42,13 @@ struct Handler: LambdaHandler {
         let routeKey = RouteKey(request.context.http.path, request.context.http.method)
         
         guard let handler = routeTable[routeKey] else {
-            return Response(statusCode: .notFound, body: "Invalid Route")
+            return Response(statusCode: .notFound, body: reserializeJson("""
+            {
+                "Error": "Invalid route",
+                "Route": \"\(routeKey.path)\"
+            }
+            """,
+            pretty: true))
         }
         
         return handler(request)
