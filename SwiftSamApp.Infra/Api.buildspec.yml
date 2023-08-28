@@ -4,30 +4,9 @@ phases:
     commands:
       # See https://swift.org/download/#using-downloads
       # Installation section for Amazon Linux 2
-      - >
-        yum -y install
-        binutils
-        gcc
-        git
-        glibc-static
-        gzip
-        libbsd
-        libcurl
-        libedit
-        libicu
-        libstdc++-static
-        libuuid
-        libxml2
-        tar
-        tzdata
-      # wget writes an obnoxious amount of progress lines, so turn that off
-      - wget -q --progress=bar:force:noscroll https://download.swift.org/swift-5.8.1-release/amazonlinux2/swift-5.8.1-RELEASE/swift-5.8.1-RELEASE-amazonlinux2.tar.gz
-      - wget -q --progress=bar:force:noscroll https://download.swift.org/swift-5.8.1-release/amazonlinux2/swift-5.8.1-RELEASE/swift-5.8.1-RELEASE-amazonlinux2.tar.gz.sig
-      - wget -q -O - https://swift.org/keys/all-keys.asc | gpg --import -
-      - gpg --keyserver hkp://keyserver.ubuntu.com --refresh-keys Swift
-      - gpg --verify swift-5.8.1-RELEASE-amazonlinux2.tar.gz.sig
-      - tar xzf swift-5.8.1-RELEASE-amazonlinux2.tar.gz
-      - export PATH=$(pwd)/swift-5.8.1-RELEASE-amazonlinux2.tar.gz/usr/bin:"${PATH}"
+      - curl https://download.swift.org/experimental-use-only/repo/amazonlinux/releases/2/swiftlang.repo > /etc/yum.repos.d/swiftlang.repo
+      - amazon-linux-extras install epel
+      - yum install swiftlang
       - echo $PATH
   pre_build:
     commands:
