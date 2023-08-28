@@ -2,8 +2,8 @@ version: 0.2
 phases:
   install:
     commands:
-      # See https://swift.org/download/#using-downloads
-      # Installation section for Amazon Linux 2
+      # See https://www.swift.org/download/#releases
+      # RPM installation section for Amazon Linux 2
       - curl https://download.swift.org/experimental-use-only/repo/amazonlinux/releases/2/swiftlang.repo > /etc/yum.repos.d/swiftlang.repo
       # see https://stackoverflow.com/questions/73056540/no-module-named-amazon-linux-extras-when-running-amazon-linux-extras-install-epe
       - PYTHON=python2 amazon-linux-extras install epel -y
