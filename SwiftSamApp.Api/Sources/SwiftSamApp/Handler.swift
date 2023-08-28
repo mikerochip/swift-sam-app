@@ -22,7 +22,7 @@ struct Handler: LambdaHandler {
         printJson(context.logger, """
         {
             "Action": "Enter",
-            "RequestId": "\(context.requestId)"
+            "RequestId": "\(context.requestID)"
         }
         """)
         
@@ -31,7 +31,7 @@ struct Handler: LambdaHandler {
         printJson(context.logger, """
         {
             "Action": "Exit",
-            "RequestId": "\(context.requestId)"
+            "RequestId": "\(context.requestID)"
         }
         """)
         return response
