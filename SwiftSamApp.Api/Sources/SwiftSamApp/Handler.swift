@@ -29,7 +29,7 @@ struct Handler: LambdaHandler {
         let response = routeAndHandleEvent(request)
         printJson(response.body)
         
-        printJson(context.logger, """
+        logger.info("""
         {
             "Action": "Exit",
             "RequestId": "\(context.requestID)",
