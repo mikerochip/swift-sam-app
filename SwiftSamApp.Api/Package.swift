@@ -15,7 +15,7 @@ let package = Package(
         .package(url: "https://github.com/swift-server/swift-aws-lambda-events.git", branch: "main"),
     ],
     targets: [
-        .target(name: "SwiftSamApp", dependencies: [
+        .executableTarget(name: "SwiftSamApp", dependencies: [
             .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
             .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-events"),
         ]),

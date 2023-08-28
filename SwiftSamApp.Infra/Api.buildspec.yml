@@ -20,6 +20,7 @@ phases:
     commands:
       - cd $ProjectPath
       - swift --version
+      - swift package --version
       - swift build --product SwiftSamApp -c release
       # see https://github.com/swift-server/swift-aws-lambda-runtime/blob/master/Examples/LambdaFunctions/scripts/package.sh
       - export BuildDir=".build/release/SwiftSamApp"
