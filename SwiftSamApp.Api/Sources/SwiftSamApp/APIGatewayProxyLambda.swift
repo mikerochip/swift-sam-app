@@ -1,51 +1,58 @@
-import AWSLambdaEvents
 import AWSLambdaRuntime
-import NIO
+import AWSLambdaEvents
 
-struct APIGatewayProxyLambda: EventLoopLambdaHandler {
-    typealias In = APIGateway.V2.Request
-    typealias Out = APIGateway.V2.Response
+@main
+struct Handler: LambdaHandler {
+    typealias Request = APIGatewayV2Request
+    typealias Response = APIGatewayV2Response
     
-    var routeTable: [RouteKey: (In) -> Out] = [:]
+    var routeTable: [RouteKey: (Request) -> Response] = [:]
     
-    init() {
+    init(context: LambdaInitializationContext) async throws {
+        printJson("""
+        {
+            "Message": "I'm alive!"
+        }
+        """)
+
         routeTable[RouteKey("/", HTTPMethod.GET)] = handleHello
     }
     
-    public func handle(context: Lambda.Context, event: In) -> EventLoopFuture<Out> {
+    public func handle(_ request: Request, context: LambdaContext) async throws -> Response {
         printJson(context.logger, """
         {
             "Action": "Enter",
-            "RequestId": "\(context.requestID)"
+            "RequestId": "\(context.requestId)"
         }
         """)
         
-        let response = routeAndHandleEvent(event)
+        let response = routeAndHandleEvent(request)
         
         printJson(context.logger, """
         {
             "Action": "Exit",
-            "RequestId": "\(context.requestID)"
+            "RequestId": "\(context.requestId)"
         }
         """)
-        return context.eventLoop.makeSucceededFuture(response)
+        return response
     }
     
-    func routeAndHandleEvent(_ event: In) -> Out {
-        let routeKey = RouteKey(event.context.http.path, event.context.http.method)
+    func routeAndHandleEvent(_ request: Request) -> Response {
+        let routeKey = RouteKey(request.context.http.path, request.context.http.method)
         
         guard let handler = routeTable[routeKey] else {
-            return Out(statusCode: .notFound, body: "Invalid Route")
+            return Response(statusCode: .notFound, body: "Invalid Route")
         }
         
         return handler(event)
     }
     
-    func handleHello(_ event: In) -> Out {
-        return Out(statusCode: .ok, body: reserializeJson("""
+    func handleHello(_ request: Request) -> Response {
+        return Response(statusCode: .ok, body: reserializeJson("""
         {
             "Message": "Hello, world!"
         }
-        """, pretty: true))
+        """,
+        pretty: true))
     }
 }
