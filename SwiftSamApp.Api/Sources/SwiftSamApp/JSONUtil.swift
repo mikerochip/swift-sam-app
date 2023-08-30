@@ -15,7 +15,7 @@ func reserializeJson(_ str:String, pretty:Bool = false) -> String {
         // make sure this JSON is in the format we expect
         jsonObj = try JSONSerialization.jsonObject(with: str.data(using: .utf8)!)
     } catch let error as NSError {
-        print("reserializeJson failed: \(error.localizedDescription)")
+        print("[Json] Action=Reserialize|Result=Fail|Error=\(error.localizedDescription)|String=\(str)")
         return ""
     }
 
