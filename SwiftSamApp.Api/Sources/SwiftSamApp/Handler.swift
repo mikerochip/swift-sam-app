@@ -33,7 +33,7 @@ struct Handler: LambdaHandler {
         {
             "Action": "Exit",
             "RequestId": "\(context.requestID)",
-            "Response": \(response.body!)
+            "Response": "\(response.body!)"
         }
         """)
         return response
