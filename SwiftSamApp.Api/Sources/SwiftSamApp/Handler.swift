@@ -27,7 +27,7 @@ struct Handler: LambdaHandler {
         """)
         
         let response = routeAndHandleEvent(request)
-        printJson(response.body)
+        printJson(response.body!)
         
         printJson("""
         {
