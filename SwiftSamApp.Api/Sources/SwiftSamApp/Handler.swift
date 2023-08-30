@@ -19,7 +19,7 @@ struct Handler: LambdaHandler {
     }
     
     public func handle(_ request: Request, context: LambdaContext) async throws -> Response {
-        printJson(context.logger, """
+        printJson("""
         {
             "Action": "Enter",
             "RequestId": "\(context.requestID)"
@@ -29,7 +29,7 @@ struct Handler: LambdaHandler {
         let response = routeAndHandleEvent(request)
         printJson(response.body)
         
-        context.logger.info("""
+        printJson("""
         {
             "Action": "Exit",
             "RequestId": "\(context.requestID)",
