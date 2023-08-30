@@ -10,23 +10,23 @@ func printJson(_ logger:Logger, _ str:String) {
 }
 
 func reserializeJson(_ str:String, pretty:Bool = false) -> String {
-    var json:Any
+    var jsonObj:Any
     do {
         // make sure this JSON is in the format we expect
-        json = try JSONSerialization.jsonObject(with: str.data(using: .utf8)!)
+        jsonObj = try JSONSerialization.jsonObject(with: str.data(using: .utf8)!)
     } catch let error as NSError {
-        print("reserializeJson() failed: \(error.localizedDescription)")
+        print("reserializeJson failed: \(error.localizedDescription)")
         return ""
     }
 
-    // let json = try! JSONSerialization.jsonObject(with: str.data(using: .utf8)!)
-    let jsonDict = json as! [String:String]
+    let jsonDict = jsonObj as? [String:Any]
     
     let encoder = JSONEncoder()
     if pretty {
         encoder.outputFormatting = .prettyPrinted
     }
     
-    let jsonData = try! encoder.encode(jsonDict)
-    return String(data: jsonData, encoding: .utf8)!
+    let jsonStringDict = jsonDict!.mapValues { String(describing: $0) }
+    let jsonStr = try! encoder.encode(jsonStringDict)
+    return String(data: jsonStr, encoding: .utf8)!
 }
