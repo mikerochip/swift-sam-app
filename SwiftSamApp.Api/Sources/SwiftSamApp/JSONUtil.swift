@@ -10,7 +10,16 @@ func printJson(_ logger:Logger, _ str:String) {
 }
 
 func reserializeJson(_ str:String, pretty:Bool = false) -> String {
-    let json = try! JSONSerialization.jsonObject(with: str.data(using: .utf8)!)
+    var json:Any
+    do {
+        // make sure this JSON is in the format we expect
+        json = try JSONSerialization.jsonObject(with: str.data(using: .utf8)!)
+    } catch let error as NSError {
+        print("reserializeJson() failed: \(error.localizedDescription)")
+        return ""
+    }
+
+    // let json = try! JSONSerialization.jsonObject(with: str.data(using: .utf8)!)
     let jsonDict = json as! [String:String]
     
     let encoder = JSONEncoder()
