@@ -2,9 +2,9 @@ import AWSLambdaEvents
 
 struct RouteKey: Hashable {
     let path: String
-    let method: HTTPMethod
+    let method: HTTPRequest.Method
     
-    init(_ path: String, _ method: HTTPMethod) {
+    init(_ path: String, _ method: HTTPRequest.Method) {
         self.path = path
         self.method = method
     }

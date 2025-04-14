@@ -15,7 +15,7 @@ struct Handler: LambdaHandler {
         }
         """)
 
-        routeTable[RouteKey("/", HTTPMethod.GET)] = handleHello
+        routeTable[RouteKey("/", HTTPRequest.Method.get)] = handleHello
     }
     
     public func handle(_ request: Request, context: LambdaContext) async throws -> Response {
