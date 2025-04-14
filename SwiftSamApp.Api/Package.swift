@@ -1,4 +1,4 @@
-// swift-tools-version:5.7.3
+// swift-tools-version:5.8.0
 
 import PackageDescription
 
@@ -11,8 +11,8 @@ let package = Package(
         .executable(name: "SwiftSamApp", targets: ["SwiftSamApp"])
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", from: "1.0.0-alpha"),
-        .package(url: "https://github.com/swift-server/swift-aws-lambda-events.git", branch: "0.3.0"),
+        .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", from: "1.0.0-alpha.3"),
+        .package(url: "https://github.com/swift-server/swift-aws-lambda-events.git", branch: "v1.0.0"),
     ],
     targets: [
         .executableTarget(name: "SwiftSamApp", dependencies: [
