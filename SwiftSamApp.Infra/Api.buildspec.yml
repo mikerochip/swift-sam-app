@@ -2,12 +2,12 @@ version: 0.2
 phases:
   install:
     commands:
-      # See https://www.swift.org/install/linux/swiftly/
-      - curl -O https://download.swift.org/swiftly/linux/swiftly-1.0.0-$(uname -m).tar.gz
-      - tar -zxf swiftly-1.0.0-$(uname -m).tar.gz
-      - sudo ./swiftly init
-      - sudo ~/.local/share/swiftly/env.sh
-      - sudo hash -r
+       # See https://www.swift.org/install/linux/rpm/
+      - curl https://download.swift.org/experimental-use-only/repo/amazonlinux/releases/2/swiftlang.repo > /etc/yum.repos.d/swiftlang.repo
+      # see https://stackoverflow.com/questions/73056540/no-module-named-amazon-linux-extras-when-running-amazon-linux-extras-install-epe
+      - PYTHON=python2 amazon-linux-extras install epel -y
+      - yum install swiftlang -y
+      - swift sdk install https://download.swift.org/swift-6.0-release/static-sdk/swift-6.0-RELEASE/swift-6.0-RELEASE_static-linux-0.0.1.artifactbundle.tar.gz --checksum 7984c2cf175bde52ba6ea1fcbe27fc4a148a6237c41c719209c9288ed3ceb652
       - echo $PATH
   pre_build:
     commands:
@@ -19,7 +19,6 @@ phases:
   build:
     commands:
       - cd $ProjectPath
-      - swiftly install --use 5.8.0
       - swift --version
       - swift package --version
       - swift build --product SwiftSamApp -c release
