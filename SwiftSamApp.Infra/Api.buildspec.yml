@@ -29,7 +29,8 @@ phases:
       - tar xzf swift-6.0.3-RELEASE-amazonlinux2.tar.gz
       - pwd
       - ls -l
-      - export PATH=$(pwd)/usr/bin:"${PATH}"
+      - ls -l swift-6.0.3-RELEASE-amazonlinux2.tar.gz
+      - export PATH=$(pwd)/swift-6.0.3-RELEASE-amazonlinux2.tar.gz/usr/bin:"${PATH}"
       - echo $PATH
       - where swift
   pre_build:
