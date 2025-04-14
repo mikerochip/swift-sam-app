@@ -28,6 +28,7 @@ phases:
       - tar xzf swift-5.8.1-RELEASE-amazonlinux2.tar.gz
       - export PATH=$(pwd)/swift-5.8.1-RELEASE-amazonlinux2.tar.gz/usr/bin:"${PATH}"
       - echo $PATH
+      - where swift
   pre_build:
     commands:
       - echo "ProjectPath $ProjectPath"
