@@ -32,7 +32,7 @@ phases:
       - ls -l swift-6.0.3-RELEASE-amazonlinux2/usr/bin
       - export PATH=$(pwd)/swift-6.0.3-RELEASE-amazonlinux2/usr/bin:"${PATH}"
       - echo $PATH
-      - where swift
+      - which swift
   pre_build:
     commands:
       - echo "ProjectPath $ProjectPath"
