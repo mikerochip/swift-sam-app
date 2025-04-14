@@ -1,5 +1,6 @@
 import AWSLambdaRuntime
 import AWSLambdaEvents
+import HTTPTypes
 
 @main
 struct Handler: LambdaHandler {

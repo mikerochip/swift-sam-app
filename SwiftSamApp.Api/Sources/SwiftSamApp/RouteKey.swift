@@ -1,4 +1,5 @@
 import AWSLambdaEvents
+import HTTPTypes
 
 struct RouteKey: Hashable {
     let path: String
