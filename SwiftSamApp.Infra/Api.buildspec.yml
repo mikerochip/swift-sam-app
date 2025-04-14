@@ -5,7 +5,7 @@ phases:
       # See https://www.swift.org/install/linux/swiftly/
       - curl -O https://download.swift.org/swiftly/linux/swiftly-1.0.0-$(uname -m).tar.gz
       - tar -zxf swiftly-1.0.0-$(uname -m).tar.gz
-      - sudo ./swiftly init --quiet-shell-followup
+      - sudo ./swiftly init
       - sudo ~/.local/share/swiftly/env.sh
       - sudo hash -r
       - echo $PATH
