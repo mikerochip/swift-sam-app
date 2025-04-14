@@ -2,6 +2,7 @@ version: 0.2
 phases:
   install:
     commands:
+      # see https://www.swift.org/install/linux/tarball/ and https://www.swift.org/install/linux/amazonlinux/2/#versions
       - >
         yum -y install
         binutils
@@ -26,8 +27,8 @@ phases:
       - gpg --keyserver hkp://keyserver.ubuntu.com --refresh-keys Swift
       - gpg --verify swift-6.0.3-RELEASE-amazonlinux2.tar.gz.sig
       - tar xzf swift-6.0.3-RELEASE-amazonlinux2.tar.gz
-      - ls -l swift-6.0.3-RELEASE-amazonlinux2.tar.gz/usr/bin
-      - export PATH=$(pwd)/swift-6.0.3-RELEASE-amazonlinux2.tar.gz/usr/bin:"${PATH}"
+      - ls -l usr
+      - export PATH=$(pwd)/usr/bin:"${PATH}"
       - echo $PATH
       - where swift
   pre_build:
